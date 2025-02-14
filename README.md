@@ -22,7 +22,37 @@ Custom Boilerplate for setting up any future FastAPI
  ## Architecture
  - main.py
  ```
-/fastapi_project │-- /app │ │-- /api │ │ │-- /v1 │ │ │ │-- /routes │ │ │ │ │-- product_routes.py │ │ │ │ │-- user_routes.py │ │ │ │-- /services │ │ │ │ │-- product_service.py │ │ │ │ │-- user_service.py │ │ │ │-- init.py │ │-- /models │ │ │-- product_model.py │ │ │-- user_model.py │ │-- /schemas │ │ │-- product_schema.py │ │ │-- user_schema.py │ │-- /repositories │ │ │-- product_repository.py │ │ │-- user_repository.py │ │-- /core │ │ │-- config.py │ │ │-- database.py │ │-- main.py │-- /migrations │-- .env │-- .gitignore │-- requirements.txt │-- Dockerfile │-- docker-compose.yml │-- README.md
+/fastapi_project 
+│-- /app 
+│ │-- /api 
+│ │ │-- /v1 
+│ │ │ │-- /routes 
+│ │ │ │ │-- product_routes.py 
+│ │ │ │ │-- user_routes.py 
+│ │ │ │-- /services 
+│ │ │ │ │-- product_service.py 
+│ │ │ │ │-- user_service.py 
+│ │ │ │-- init.py 
+│ │-- /models 
+│ │ │-- product_model.py 
+│ │ │-- user_model.py 
+│ │-- /schemas 
+│ │ │-- product_schema.py 
+│ │ │-- user_schema.py 
+│ │-- /repositories 
+│ │ │-- product_repository.py 
+│ │ │-- user_repository.py 
+│ │-- /core 
+│ │ │-- config.py 
+│ │ │-- database.py 
+│ │-- main.py 
+│-- /migrations 
+│-- .env 
+│-- .gitignore 
+│-- requirements.txt 
+│-- Dockerfile 
+│-- docker-compose.yml 
+│-- README.md
 ```
 
 
