@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-
+from db import create_db_and_tables, SessionDep
+from domains.checkout.routes import router as cart_router
+from domains.checkout.models import Cart
+from domains.checkout.repository import CartRepository
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -8,11 +11,7 @@ async def lifespan(app: FastAPI):
     print("\n\n           🚀 Starting up Base FastAPI...")
     print("               -By Herman Woo\n\n")
     # Initialize DB tables
-    # create_db_and_tables()
-    
-    # Ensure tables exists
-    # with SessionDep() as session:
-        # RaterRepository(session).create_table()
+    create_db_and_tables()
 
 
     yield  # Everything before `yield` runs on startup, everything after runs on shutdown
@@ -22,4 +21,8 @@ app = FastAPI(lifespan=lifespan)
 # Basic root endpoint
 @app.get("/")
 async def root():
-    return {"message": "Hello World"} 
+    return {"message": "FastAPI-Base is Online!"} 
+
+
+# Register API routes
+app.include_router(cart_router, prefix="/cart")

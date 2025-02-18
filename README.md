@@ -32,10 +32,26 @@ deactivate
 ```
 
  ## Architecture
- - main.py
+|- main.py (entry for the api)
+|- db.py (configuration to setup database sessions)
 
 
  ## Running FastAPI
-- fastapi dev main.py
+ - For running in Dev mode
+ ```
+fastapi dev main.py
 
+ ```
+
+ - For running with uvicorns
+ ```
+uvicorn main:app --reload
+
+ ```
+uvicorn main:app --host 0.0.0.0 --port 8000
+
+ - For running in production
+ ```
+fastapi run
+ ```
  ## Data Migration w/ Alembic
