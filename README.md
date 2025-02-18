@@ -1,5 +1,6 @@
 # FastAPI-Base
-Custom Boilerplate for setting up any future FastAPI
+Custom Boilerplate for setting up any future FastAPI.
+Domain Driven Design for Restful API.
 
 ## Setup
 1. Create an ENV
