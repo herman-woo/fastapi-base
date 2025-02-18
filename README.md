@@ -2,6 +2,11 @@
 Custom Boilerplate for setting up any future FastAPI.
 Domain Driven Design for Restful API.
 
+## Preamble
+I've built in Django before and it was incredibly helpful with it's batteries included mindset. I found getting off the ground running with FastAPI to be a bit more difficult since its far less opinionated and requires for me to make more decisions.
+
+So for any future FastAPI projects I may build, i wanted to create a starter kit. This kit is one that mainly uses the SQLModel and Alembic to essentailly help with the database/ORM side of things.
+
 ## Setup
 1. Create an ENV
 - 
