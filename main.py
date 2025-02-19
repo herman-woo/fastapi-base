@@ -5,6 +5,8 @@ from domains.checkout.routes import router as cart_router
 from domains.checkout.models import Cart
 from domains.checkout.repository import CartRepository
 
+from fastapi.middleware.cors import CORSMiddleware
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Handles startup and shutdown events in a structured way."""
@@ -26,3 +28,12 @@ async def root():
 
 # Register API routes
 app.include_router(cart_router, prefix="/cart")
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # ✅ Allow all origins (for development)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)

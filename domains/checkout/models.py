@@ -4,19 +4,21 @@ from decimal import Decimal
 
 class CartItem(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    cart_id: int = Field(foreign_key="cart.id")  # Foreign key linking to Cart
+    cart_id: int = Field(foreign_key="cart.id",index=True)  # Foreign key linking to Cart
     product_name: str
-    price: Decimal  # Use Decimal for accurate financial calculations
+    price: float
     quantity: int
 
-    # Define relationship to Cart
+    # Define relationship back to Cart
     cart: Optional["Cart"] = Relationship(back_populates="items")
 
 class Cart(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    subtotal: Decimal = Field(default=Decimal(0))
-    taxes: Decimal = Field(default=Decimal(0))
-    final_total: Decimal = Field(default=Decimal(0))
+    subtotal: float = Field(default=Decimal(0))
+    taxes: float = Field(default=Decimal(0))
+    final_total: float = Field(default=Decimal(0))
 
-    # Define the One-to-Many relationship with CartItem
-    items: List["CartItem"] = Relationship(back_populates="cart", sa_relationship_kwargs={"cascade": "all, delete-orphan"})
+    # ✅ Ensure `items` is automatically loaded when fetching a Cart
+    items: List["CartItem"] = Relationship(
+        back_populates="cart", sa_relationship_kwargs={"lazy": "joined"}
+    )

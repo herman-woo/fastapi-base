@@ -1,4 +1,7 @@
 from sqlmodel import Session, select
+from sqlalchemy.orm import joinedload
+from .models import Cart, CartItem
+
 from .models import Cart
 from db import engine
 
@@ -13,9 +16,24 @@ class CartRepository:
         self.session.refresh(cart)
         return cart
 
+
     def find_by_id(self, cart_id: int) -> Cart | None:
-        """Retrieve a Cart by its ID."""
-        return self.session.exec(select(Cart).where(Cart.id == cart_id)).first()
+        cart = self.session.exec(
+            select(Cart)
+            .where(Cart.id == cart_id)
+            .options(joinedload(Cart.items))  
+        ).first()
+
+        print("DEBUG: Cart retrieved:", cart)
+        print("DEBUG: Cart items:", cart.items if cart else "No cart found")
+        
+        return cart
+
+    def get_items_by_cart_id(self, cart_id: int) -> list[CartItem]:
+        """Retrieve all CartItems for a specific cart_id."""
+        return self.session.exec(
+            select(CartItem).where(CartItem.cart_id == cart_id)
+        ).all()
 
     def find_all(self):
         """Retrieve all carts."""
@@ -26,6 +44,20 @@ class CartRepository:
         cart = self.find_by_id(cart_id)
         if cart:
             self.session.delete(cart)
+            self.session.commit()
+            return True
+        return False
+    
+
+    def find_item_by_id(self, item_id: int) -> CartItem | None:
+        item = self.session.exec(select(CartItem).where(CartItem.id == item_id)).first()
+        return item
+    
+    def delete_item(self, item_id: int):
+        """Delete a item by ID."""
+        item = self.find_item_by_id(item_id)
+        if item:
+            self.session.delete(item)
             self.session.commit()
             return True
         return False

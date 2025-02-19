@@ -17,12 +17,29 @@ def create_cart(db: SessionDep):
 
 @router.get("/{cart_id}")
 def get_cart(cart_id: int, db: SessionDep):
-    """Retrieve a cart by ID."""
     cart_repo = CartRepository(db)
     cart = cart_repo.find_by_id(cart_id)
+
     if not cart:
         raise HTTPException(status_code=404, detail="Cart not found")
-    return {"cart": cart}
+
+    # 🔥 Explicitly convert `Cart` to a dictionary, including `items`
+    return {
+        "id": cart.id,
+        "subtotal": float(cart.subtotal),  # Convert Decimal to float for JSON compatibility
+        "taxes": float(cart.taxes),
+        "final_total": float(cart.final_total),
+        "items": [
+            {
+                "id": item.id,
+                "cart_id": item.cart_id,
+                "product_name": item.product_name,
+                "price": float(item.price),  # Convert Decimal to float
+                "quantity": item.quantity
+            }
+            for item in cart.items
+        ]
+    }
 
 @router.post("/{cart_id}/add-item")
 def add_item(cart_id: int, item_data: dict, db: SessionDep):
@@ -54,11 +71,27 @@ def delete_cart(cart_id: int, db: SessionDep):
     return {"message": "Cart deleted"}
 
 
-@router.delete("/item/{item_id}")
-def delete_cart(cart_id: int, db: SessionDep):
-    """Delete an item by ID."""
+@router.delete("/delete-item/{cart_id}/{item_id}")
+def delete_cart(cart_id: int, item_id: int,db: SessionDep):
+    # """Delete an item by ID."""
     cart_repo = CartRepository(db)
-    success = cart_repo.delete(cart_id)
+    cart = cart_repo.find_by_id(cart_id)
+    success = cart_repo.delete_item(item_id)
+    updated_cart = calculate_cart_totals(cart)
+    db.commit()
     if not success:
         raise HTTPException(status_code=404, detail="Cart not found")
-    return {"message": "Cart deleted"}
+
+    return {"message": "Item deleted"}
+
+
+@router.get("/{cart_id}/items")
+def get_cart_items(cart_id: int, db: SessionDep):
+    """Retrieve all items in a cart by cart_id."""
+    cart_repo = CartRepository(db)
+    cart_items = cart_repo.get_items_by_cart_id(cart_id)
+
+    if not cart_items:
+        raise HTTPException(status_code=404, detail="No items found for this cart")
+
+    return {"cart_id": cart_id, "items": cart_items}

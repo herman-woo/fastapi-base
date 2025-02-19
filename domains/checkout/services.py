@@ -1,8 +1,7 @@
-from decimal import Decimal
 from sqlalchemy.orm import Session
 from .models import Cart, CartItem
 
-TAX_RATE = Decimal("0.07")  # 7% tax
+TAX_RATE = 0.07
 
 def calculate_cart_totals(cart: Cart):
     """ Recalculates subtotal, tax, and final total for a cart. """

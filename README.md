@@ -7,6 +7,8 @@ I've built in Django before and it was incredibly helpful with it's batteries in
 
 So for any future FastAPI projects I may build, i wanted to create a starter kit. This kit is one that mainly uses the SQLModel and Alembic to essentailly help with the database/ORM side of things.
 
+So this repository will be filled with comments (more in the future), and documentation to help me remember important things
+
 ## Setup
 1. Create an ENV
 - 
@@ -53,7 +55,7 @@ fastapi dev main.py
 uvicorn main:app --reload
 
  ```
-uvicorn main:app --host 0.0.0.0 --port 8000
+uvicorn main:app --host 0.0.0.0 --port 8080
 
  - For running in production
  ```
